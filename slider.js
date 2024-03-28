@@ -1,5 +1,6 @@
 class CircularSlider {
   constructor(options) {
+    this.isDragging = false;
     this.container = options.container;
     this.ctx = options.ctx;
     this.x = options.x || this.container.width / 2;
@@ -11,7 +12,9 @@ class CircularSlider {
     this.radius = options.radius;
     this.sliderWidth = options.sliderWidth || 10;
     this.value = options.value || 0; // Initialize with minValue
-    this.onCanvasClick = this.onCanvasClick.bind(this);
+    this.onMouseUp = this.onMouseUp.bind(this);
+    this.onMouseMove = this.onMouseMove.bind(this);
+    this.onMouseDown = this.onMouseDown.bind(this);
     this.attachEventListeners();
   }
 
@@ -73,9 +76,6 @@ class CircularSlider {
   }
 
   updateValueFromPosition(x, y) {
-    // Implementation to update value based on position
-    console.log(x, y);
-
     // Calculate angle from center to click point
     const dx = x - this.x;
     const dy = y - this.y;
@@ -97,21 +97,44 @@ class CircularSlider {
     );
   }
 
-  onCanvasClick(event) {
+  onMouseUp(event) {
+    const rect = this.container.getBoundingClientRect();
+    const clickX = event.clientX - rect.left;
+    const clickY = event.clientY - rect.top;
+    this.isDragging = false;
+
+    if (this.isClickOnSlider(clickX, clickY)) {
+      this.updateValueFromPosition(clickX, clickY);
+      this.drawSlider();
+    }
+  }
+
+  onMouseDown(event) {
+    const rect = this.container.getBoundingClientRect();
+    const clickX = event.clientX - rect.left;
+    const clickY = event.clientY - rect.top;
+
+    if (this.isClickOnSlider(clickX, clickY)) {
+      this.updateValueFromPosition(clickX, clickY);
+      this.isDragging = true;
+    }
+  }
+
+  onMouseMove(event) {
     // Convert click position to canvas coordinates
     const rect = this.container.getBoundingClientRect();
     const clickX = event.clientX - rect.left;
     const clickY = event.clientY - rect.top;
 
-    // Check if the click was on the slider
-    if (this.isClickOnSlider(clickX, clickY)) {
+    if (this.isDragging) {
       this.updateValueFromPosition(clickX, clickY);
-      // Optionally, redraw the slider with the new value
       this.drawSlider();
     }
   }
 
   attachEventListeners() {
-    this.container.addEventListener("mouseup", this.onCanvasClick);
+    this.container.addEventListener("mouseup", this.onMouseUp);
+    this.container.addEventListener("mousemove", this.onMouseMove);
+    this.container.addEventListener("mousedown", this.onMouseDown);
   }
 }
