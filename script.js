@@ -22,12 +22,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
   sliders.push(sliderA);
 
-  drawSliders(sliders, ctx, canvas);
+  drawSliders();
   changeSliderCountValue(sliders.length);
 
   document.getElementById("add_slider").addEventListener("click", function () {
-    addSlider(sliders, initialRadius, canvas, ctx);
-    drawSliders(sliders, ctx, canvas);
+    addSlider();
+    drawSliders();
   });
 
   document
@@ -42,16 +42,16 @@ function changeSliderCountValue(value) {
   sliderCountValue.innerHTML = value;
 }
 
-function drawSliders(sliders, ctx, container) {
+function drawSliders() {
   // Clear the canvas
-  ctx.clearRect(0, 0, container.width, container.height);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   sliders.forEach((slider) => {
     slider.drawSlider();
   });
 }
 
-function addSlider(sliders, initialRadius, canvas, ctx) {
+function addSlider() {
   let newSlider = new CircularSlider({
     container: canvas,
     ctx: ctx,
@@ -59,12 +59,12 @@ function addSlider(sliders, initialRadius, canvas, ctx) {
     min: 0,
     max: 1,
     step: 0.01,
+    onChange: onSliderChange,
   });
 
   sliders.push(newSlider);
 }
 
 function onSliderChange(slider) {
-  console.log("Slider changed", slider);
   drawSliders(sliders, ctx, canvas);
 }
