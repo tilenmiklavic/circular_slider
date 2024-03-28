@@ -7,14 +7,10 @@ document.addEventListener("DOMContentLoaded", function () {
   let sliderA = new CircularSlider({
     container: canvas,
     ctx: ctx,
-    x: 100,
-    y: 100,
-    color: "red",
     radius: 50,
     min: 0,
     max: 1,
     step: 0.01,
-    value: 0.5,
   });
 
   sliders.push(sliderA);
