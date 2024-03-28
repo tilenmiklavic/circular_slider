@@ -33,7 +33,8 @@ document.addEventListener("DOMContentLoaded", function () {
   document
     .getElementById("remove_slider")
     .addEventListener("click", function () {
-      console.log("Remove slider clicked");
+      sliders.pop();
+      drawSliders();
     });
 });
 
