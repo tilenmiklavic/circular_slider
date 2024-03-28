@@ -1,9 +1,14 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const canvas = document.getElementById("myCanvas");
-  const ctx = canvas.getContext("2d");
-  const initialRadius = 50;
+let canvas = null;
+let ctx = null;
+let initialRadius = null;
+let sliders = null;
 
-  let sliders = [];
+document.addEventListener("DOMContentLoaded", function () {
+  canvas = document.getElementById("myCanvas");
+  ctx = canvas.getContext("2d");
+  initialRadius = 50;
+
+  sliders = [];
 
   let sliderA = new CircularSlider({
     container: canvas,
@@ -12,6 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
     min: 0,
     max: 1,
     step: 0.01,
+    onChange: onSliderChange,
   });
 
   sliders.push(sliderA);
@@ -56,4 +62,9 @@ function addSlider(sliders, initialRadius, canvas, ctx) {
   });
 
   sliders.push(newSlider);
+}
+
+function onSliderChange(slider) {
+  console.log("Slider changed", slider);
+  drawSliders(sliders, ctx, canvas);
 }

@@ -15,6 +15,7 @@ class CircularSlider {
     this.onMouseUp = this.onMouseUp.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onMouseDown = this.onMouseDown.bind(this);
+    this.onChange = options.onChange;
     this.attachEventListeners();
   }
 
@@ -80,6 +81,8 @@ class CircularSlider {
 
     // Convert angle to value
     this.value = (angle + Math.PI / 2) / (2 * Math.PI);
+
+    this.onChange(this);
   }
 
   isClickOnSlider(x, y) {
@@ -102,7 +105,6 @@ class CircularSlider {
 
     if (this.isClickOnSlider(clickX, clickY)) {
       this.updateValueFromPosition(clickX, clickY);
-      this.drawSlider();
     }
   }
 
@@ -125,7 +127,6 @@ class CircularSlider {
 
     if (this.isDragging) {
       this.updateValueFromPosition(clickX, clickY);
-      this.drawSlider();
     }
   }
 
