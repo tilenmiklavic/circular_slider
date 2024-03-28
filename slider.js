@@ -23,9 +23,6 @@ class CircularSlider {
     const endAngle = 1.5 * Math.PI + 2 * Math.PI * this.value;
     const fullCircle = 1.5 * Math.PI + 2 * Math.PI;
 
-    // Clear the canvas
-    this.ctx.clearRect(0, 0, this.container.width, this.container.height);
-
     // ***********************
     // Draw the outline
     // ***********************
